@@ -1,3 +1,5 @@
+<img src="https://github.com/bjornbrodtkorb/strawberry/blob/master/Graphics/logo.png" width="100">
+
 # SD Protocol
 
 This is intented to be a short summary of the most important concepts.
