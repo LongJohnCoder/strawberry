@@ -1,0 +1,486 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
+  <PropertyGroup>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>7.0</ProjectVersion>
+    <ToolchainName>com.Atmel.ARMGCC.C</ToolchainName>
+    <ProjectGuid>dce6c7e3-ee26-4d79-826b-08594b9ad897</ProjectGuid>
+    <avrdevice>ATSAME70Q21B</avrdevice>
+    <avrdeviceseries>none</avrdeviceseries>
+    <OutputType>Executable</OutputType>
+    <Language>C</Language>
+    <OutputFileName>$(MSBuildProjectName)</OutputFileName>
+    <OutputFileExtension>.elf</OutputFileExtension>
+    <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
+    <AssemblyName>Strawberry</AssemblyName>
+    <Name>Strawberry</Name>
+    <RootNamespace>Strawberry</RootNamespace>
+    <ToolchainFlavour>Native</ToolchainFlavour>
+    <KeepTimersRunning>true</KeepTimersRunning>
+    <OverrideVtor>false</OverrideVtor>
+    <CacheFlash>true</CacheFlash>
+    <ProgFlashFromRam>true</ProgFlashFromRam>
+    <RamSnippetAddress>0x20000000</RamSnippetAddress>
+    <UncachedRange />
+    <preserveEEPROM>true</preserveEEPROM>
+    <OverrideVtorValue>exception_table</OverrideVtorValue>
+    <BootSegment>2</BootSegment>
+    <ResetRule>0</ResetRule>
+    <eraseonlaunchrule>0</eraseonlaunchrule>
+    <EraseKey />
+    <AsfFrameworkConfig>
+      <framework-data xmlns="">
+  <options />
+  <configurations />
+  <files />
+  <documentation help="" />
+  <offline-documentation help="" />
+  <dependencies>
+    <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.47.0" />
+  </dependencies>
+</framework-data>
+    </AsfFrameworkConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <ToolchainSettings>
+      <ArmGcc>
+  <armgcc.common.outputfiles.hex>True</armgcc.common.outputfiles.hex>
+  <armgcc.common.outputfiles.lss>True</armgcc.common.outputfiles.lss>
+  <armgcc.common.outputfiles.eep>True</armgcc.common.outputfiles.eep>
+  <armgcc.common.outputfiles.bin>True</armgcc.common.outputfiles.bin>
+  <armgcc.common.outputfiles.srec>True</armgcc.common.outputfiles.srec>
+  <armgcc.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>NDEBUG</Value>
+    </ListValues>
+  </armgcc.compiler.symbols.DefSymbols>
+  <armgcc.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
+      <Value>%24(PackRepoDir)\atmel\SAME70_DFP\2.4.166\same70b\include</Value>
+    </ListValues>
+  </armgcc.compiler.directories.IncludePaths>
+  <armgcc.compiler.optimization.level>Optimize for size (-Os)</armgcc.compiler.optimization.level>
+  <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
+  <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
+  <armgcc.linker.libraries.Libraries>
+    <ListValues>
+      <Value>libm</Value>
+    </ListValues>
+  </armgcc.linker.libraries.Libraries>
+  <armgcc.linker.libraries.LibrarySearchPaths>
+    <ListValues>
+      <Value>%24(ProjectDir)\Device_Startup</Value>
+    </ListValues>
+  </armgcc.linker.libraries.LibrarySearchPaths>
+  <armgcc.linker.optimization.GarbageCollectUnusedSections>True</armgcc.linker.optimization.GarbageCollectUnusedSections>
+  <armgcc.linker.miscellaneous.LinkerFlags>-Tsame70q21b_flash.ld</armgcc.linker.miscellaneous.LinkerFlags>
+  <armgcc.assembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
+      <Value>%24(PackRepoDir)\atmel\SAME70_DFP\2.4.166\same70b\include</Value>
+    </ListValues>
+  </armgcc.assembler.general.IncludePaths>
+  <armgcc.preprocessingassembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
+      <Value>%24(PackRepoDir)\atmel\SAME70_DFP\2.4.166\same70b\include</Value>
+    </ListValues>
+  </armgcc.preprocessingassembler.general.IncludePaths>
+</ArmGcc>
+    </ToolchainSettings>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <ToolchainSettings>
+      <ArmGcc>
+  <armgcc.common.outputfiles.hex>True</armgcc.common.outputfiles.hex>
+  <armgcc.common.outputfiles.lss>True</armgcc.common.outputfiles.lss>
+  <armgcc.common.outputfiles.eep>True</armgcc.common.outputfiles.eep>
+  <armgcc.common.outputfiles.bin>True</armgcc.common.outputfiles.bin>
+  <armgcc.common.outputfiles.srec>True</armgcc.common.outputfiles.srec>
+  <armgcc.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>DEBUG</Value>
+    </ListValues>
+  </armgcc.compiler.symbols.DefSymbols>
+  <armgcc.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
+      <Value>%24(PackRepoDir)\atmel\SAME70_DFP\2.4.166\same70b\include</Value>
+      <Value>../Board packages/Include</Value>
+      <Value>../Command line interface/Include</Value>
+      <Value>../Config</Value>
+      <Value>../Drivers/Include</Value>
+      <Value>../File system/Include</Value>
+      <Value>../Kernel/Include</Value>
+      <Value>../Memory/Include</Value>
+      <Value>../SD/Include</Value>
+      <Value>../USB/Include</Value>
+    </ListValues>
+  </armgcc.compiler.directories.IncludePaths>
+  <armgcc.compiler.optimization.level>Optimize most (-O3)</armgcc.compiler.optimization.level>
+  <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
+  <armgcc.compiler.optimization.DebugLevel>Maximum (-g3)</armgcc.compiler.optimization.DebugLevel>
+  <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
+  <armgcc.linker.libraries.Libraries>
+    <ListValues>
+      <Value>libm</Value>
+    </ListValues>
+  </armgcc.linker.libraries.Libraries>
+  <armgcc.linker.libraries.LibrarySearchPaths>
+    <ListValues>
+      <Value>%24(ProjectDir)\System startup</Value>
+    </ListValues>
+  </armgcc.linker.libraries.LibrarySearchPaths>
+  <armgcc.linker.optimization.GarbageCollectUnusedSections>True</armgcc.linker.optimization.GarbageCollectUnusedSections>
+  <armgcc.linker.memorysettings.ExternalRAM />
+  <armgcc.linker.miscellaneous.LinkerFlags>-Tflash.ld</armgcc.linker.miscellaneous.LinkerFlags>
+  <armgcc.assembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
+      <Value>%24(PackRepoDir)\atmel\SAME70_DFP\2.4.166\same70b\include</Value>
+    </ListValues>
+  </armgcc.assembler.general.IncludePaths>
+  <armgcc.assembler.debugging.DebugLevel>Default (-g)</armgcc.assembler.debugging.DebugLevel>
+  <armgcc.preprocessingassembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
+      <Value>%24(PackRepoDir)\atmel\SAME70_DFP\2.4.166\same70b\include</Value>
+    </ListValues>
+  </armgcc.preprocessingassembler.general.IncludePaths>
+  <armgcc.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</armgcc.preprocessingassembler.debugging.DebugLevel>
+</ArmGcc>
+    </ToolchainSettings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Board packages\Include\board_button.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board packages\Include\board_led.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board packages\Include\board_sd_card.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board packages\Include\board_serial.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board packages\Include\board_serial_programming.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board packages\Source\board_button.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board packages\Source\board_led.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board packages\Source\board_sd_card.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board packages\Source\board_serial.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board packages\Source\board_serial_programming.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Command line interface\Include\command_line_interface.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Command line interface\Source\command_line_interface.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Config\config.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Include\cache.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Include\check.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Include\clock.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Include\core.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Include\dma.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Include\dram.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Include\flash.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Include\gpio.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Include\hsmci.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Include\interrupt.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Include\matrix.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Include\spi.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Include\systick.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Include\text.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Include\timer.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Include\uart.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Include\usart.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Include\usbhs.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Include\watchdog.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Source\cache.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Source\check.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Source\clock.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Source\core.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Source\dma.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Source\dram.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Source\flash.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Source\gpio.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Source\hsmci.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Source\interrupt.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Source\matrix.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Source\spi.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Source\systick.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Source\text.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Source\timer.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Source\uart.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Source\usart.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Source\usbhs.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Source\watchdog.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="File system\Include\file_system_config.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="File system\Include\file_system_fat.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="File system\Include\file_system_io.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="File system\Source\file_system_fat.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="File system\Source\file_system_io.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="File system\Source\file_system_unicode.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Assembly\kernel_context.s">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Assembly\kernel_service_handler.s">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Include\atomic.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Include\compiler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Include\dynamic_loader.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Include\fault.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Include\kernel.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Include\list.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Include\mutex.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Include\process.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Include\scheduler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Include\scheduler_v2.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Include\syscall.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Include\thread.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Source\atomic.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Source\dynamic_loader.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Source\fault.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Source\kernel.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Source\list.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Source\mutex.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Source\process.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Source\scheduler.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Source\scheduler_v2.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Source\syscall.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Kernel\Source\thread.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Memory\Include\dynamic_memory.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Memory\Source\dynamic_memory.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SD\Include\sd_protocol.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SD\Source\sd_protocol.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="System startup\startup.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="USB\Include\usb.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="USB\Include\usb_descriptors.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="USB\Include\usb_host_class.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="USB\Include\usb_host_core.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="USB\Include\usb_host_driver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="USB\Include\usb_info.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="USB\Include\usb_protocol.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="USB\Source\usb_host_class.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="USB\Source\usb_host_core.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="USB\Source\usb_host_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Board packages\" />
+    <Folder Include="Board packages\Include\" />
+    <Folder Include="Board packages\Source\" />
+    <Folder Include="Command line interface\" />
+    <Folder Include="Command line interface\Include\" />
+    <Folder Include="Command line interface\Source\" />
+    <Folder Include="Config\" />
+    <Folder Include="Drivers\" />
+    <Folder Include="Drivers\Include\" />
+    <Folder Include="Drivers\Source\" />
+    <Folder Include="File system\" />
+    <Folder Include="File system\Include\" />
+    <Folder Include="File system\Source\" />
+    <Folder Include="Kernel\" />
+    <Folder Include="Kernel\Assembly\" />
+    <Folder Include="Kernel\Include\" />
+    <Folder Include="Kernel\Source\" />
+    <Folder Include="Memory\" />
+    <Folder Include="Memory\Include\" />
+    <Folder Include="Memory\Source\" />
+    <Folder Include="SD\" />
+    <Folder Include="SD\Include\" />
+    <Folder Include="SD\Source\" />
+    <Folder Include="System startup\" />
+    <Folder Include="USB\" />
+    <Folder Include="USB\Include\" />
+    <Folder Include="USB\Source\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="System startup\flash.ld">
+      <SubType>compile</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
+</Project>
