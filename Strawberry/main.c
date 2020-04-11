@@ -42,32 +42,6 @@ void welcome_thread(void* arg)
 	board_serial_print("Kernel successfully started\n\n");
 }
 
-#include "spinlock.h"
-struct spinlock test;
-volatile int k = 1001;
-void incr(void* arg)
-{
-	for (uint32_t i = 0; i < 100000000; i++)
-	{
-		spinlock_aquire(&test);
-		k++;
-		spinlock_release(&test);
-	}
-	board_serial_print("Incr: %d\n", k);
-}
-
-
-void decr(void* arg)
-{
-	for (uint32_t i = 0; i < 100000000; i++)
-	{
-		spinlock_aquire(&test);
-		k--;
-		spinlock_release(&test);
-	}
-	board_serial_print("Decr: %d\n", k);
-}
-
 
 //--------------------------------------------------------------------------------------------------//
 
@@ -80,13 +54,10 @@ int main(void)
 	
 	// Add some threads for test & debug purposes
 	thread_new("blink", blink_thread, NULL, THREAD_PRIORITY_NORMAL, 100);
-	
-	
-	thread_new("decrement", decr, NULL, THREAD_PRIORITY_REAL_TIME, 50);
-	thread_s* tmp = thread_new("increment", incr, NULL, THREAD_PRIORITY_REAL_TIME, 50);
 	thread_new("welcome", welcome_thread, NULL, THREAD_PRIORITY_REAL_TIME, 50);
 	thread_new("runtime", runtime_stats, NULL, THREAD_PRIORITY_NORMAL, 100);
-	tmp->ID = 45;
+
+
 	// Start the kernel
 	kernel_launch();
 	
