@@ -16,12 +16,12 @@ void spinlock_aquire(struct spinlock* spin)
 	uint32_t status = 0;
 	
 	do {
-		while (__LDREXW(&(spinlock->lock)) != 0)
+		while (__LDREXW(&(spin->lock)) != 0)
 		{
 			// Spin
 		}
 		
-		status = __STREXW(1, &(spinlock->lock));
+		status = __STREXW(1, &(spin->lock));
 		
 	} while (status != 0);
 	
@@ -39,7 +39,7 @@ void spinlock_release(struct spinlock* spin)
 	__DMB();
 
 
-	spinlock->lock = 0;
+	spin->lock = 0;
 }
 
 

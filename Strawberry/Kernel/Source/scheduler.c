@@ -424,8 +424,11 @@ void reset_runtime(void)
 		
 		list_iterate(list_node, &thread_list)
 		{
-			((thread_s *)(list_node->object))->thread_time.window_time = ((thread_s *)(list_node->object))->thread_time.new_window_time;
-			((thread_s *)(list_node->object))->thread_time.new_window_time = 0;
+			if ((thread_s *)(list_node->object) != current_thread)
+			{
+				((thread_s *)(list_node->object))->thread_time.window_time = ((thread_s *)(list_node->object))->thread_time.new_window_time;
+				((thread_s *)(list_node->object))->thread_time.new_window_time = 0;
+			}
 		}
 	}
 }
