@@ -5,8 +5,8 @@
 // software, if this copyright notice is included in all copies of
 // the software.
 
-#ifndef SCHEDULER_V2_H
-#define SCHEDULER_V2_H
+#ifndef SPINLOCK_H
+#define SPINLOCK_H
 
 
 //--------------------------------------------------------------------------------------------------//
@@ -18,13 +18,18 @@
 //--------------------------------------------------------------------------------------------------//
 
 
-struct scheduling_class
+struct spinlock
 {
-	struct scheduling_class* next_class;
+	volatile uint32_t lock;
 	
-	
-	void (*get_next_thread)(void); 
+	void* owner;
 };
+
+
+//--------------------------------------------------------------------------------------------------//
+
+
+void spinlock_aquire(struct spinlock* spinlock);
 
 
 //--------------------------------------------------------------------------------------------------//
