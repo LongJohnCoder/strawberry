@@ -1,8 +1,7 @@
-<p align="center">
-  <img width="400" src="https://github.com/bjornbrodtkorb/BlackOS/blob/master/BlackOS%20Graphics/feather.png">
-</p>
+<img width="100" src="https://github.com/bjornbrodtkorb/strawberry/blob/master/Graphics/strawberry_icon.png">
 
-BlackOS is a lightweight operating system designed for ARM processors. It comes with a port for the Cortex-M series.
+# Strawberry
+Strawberry is a lightweight operating system designed for ARM processors. It comes with a port for the Cortex-M series.
 
 # Features
 
