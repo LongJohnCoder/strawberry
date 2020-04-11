@@ -2,7 +2,7 @@
 
 # Introduction
 
-This is going to be a series of tutorials where I will break down how the X operating system works.
+This is going to be a series of tutorials where I will break down how the strawberry operating system works.
 
 Add picture of structure
 
