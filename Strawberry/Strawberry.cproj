@@ -357,7 +357,7 @@
     <Compile Include="Kernel\Include\scheduler.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Kernel\Include\scheduler_v2.h">
+    <Compile Include="Kernel\Include\spinlock.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Kernel\Include\syscall.h">
@@ -390,7 +390,7 @@
     <Compile Include="Kernel\Source\scheduler.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Kernel\Source\scheduler_v2.c">
+    <Compile Include="Kernel\Source\spinlock.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Kernel\Source\syscall.c">

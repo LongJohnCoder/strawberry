@@ -29,7 +29,9 @@ struct spinlock
 //--------------------------------------------------------------------------------------------------//
 
 
-void spinlock_aquire(struct spinlock* spinlock);
+void spinlock_aquire(struct spinlock* spin);
+
+void spinlock_release(struct spinlock* spin);
 
 
 //--------------------------------------------------------------------------------------------------//

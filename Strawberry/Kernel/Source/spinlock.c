@@ -11,7 +11,7 @@
 //--------------------------------------------------------------------------------------------------//
 
 
-void spinlock_aquire(struct spinlock* spinlock)
+void spinlock_aquire(struct spinlock* spin)
 {
 	uint32_t status = 0;
 	
@@ -34,7 +34,7 @@ void spinlock_aquire(struct spinlock* spinlock)
 //--------------------------------------------------------------------------------------------------//
 
 
-void spinlock_release(struct spinlock* spinlock)
+void spinlock_release(struct spinlock* spin)
 {
 	__DMB();
 
