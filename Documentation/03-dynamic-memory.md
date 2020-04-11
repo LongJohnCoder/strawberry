@@ -1,3 +1,5 @@
+<img src="https://github.com/bjornbrodtkorb/strawberry/blob/master/Graphics/logo.png" width="100">
+
 # Dynamic Memory
 
 Dynamic memory is used when an execution program asks the operating system to give it a block of the main memory. This allocation happends at runtime, which means the the kernel does not know about the allocation until it happends. There are many different implementations of dynamic memory, each has some advantages and some disadvantages. The allocation algorithm used in the BlackOS is based upon explicit free lists algorithm. 
