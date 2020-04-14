@@ -6,7 +6,7 @@
 // the software.
 
 #include "usbhs.h"
-#include "core.h"
+#include "critical_section.h"
 
 
 //--------------------------------------------------------------------------------------------------//

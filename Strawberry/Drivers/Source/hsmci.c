@@ -7,7 +7,7 @@
 
 #include "hsmci.h"
 #include "check.h"
-#include "core.h"
+#include "critical_section.h"
 #include "board_serial.h"
 #include "dma.h"
 

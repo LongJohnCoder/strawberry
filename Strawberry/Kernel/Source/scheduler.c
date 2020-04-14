@@ -11,7 +11,7 @@
 #include "dynamic_memory.h"
 #include "board_serial_programming.h"
 #include "check.h"
-#include "core.h"
+#include "critical_section.h"
 #include "board_serial.h"
 #include "cache.h"
 #include "compiler.h"
@@ -130,13 +130,13 @@ void SysTick_Handler()
 		
 		kernel_tick += reschedule_runtime;
 		kernel_runtime_tick += reschedule_runtime;
-		current_thread->thread_time.new_window_time += reschedule_runtime;
+		current_thread->time_s.new_window_time += reschedule_runtime;
 	}
 	else
 	{
 		kernel_tick += 1000;
 		kernel_runtime_tick += 1000;
-		current_thread->thread_time.new_window_time += 1000;
+		current_thread->time_s.new_window_time += 1000;
 	}
 	
 	if (kernel_runtime_tick >= 1000000)
@@ -412,13 +412,13 @@ static inline void process_expired_delays(void)
 
 void reset_runtime(void)
 {
-	idle_thread->thread_time.window_time = idle_thread->thread_time.new_window_time;
-	idle_thread->thread_time.new_window_time = 0;
+	idle_thread->time_s.window_time = idle_thread->time_s.new_window_time;
+	idle_thread->time_s.new_window_time = 0;
 	
 	if (current_thread != idle_thread)
 	{
-		current_thread->thread_time.window_time = current_thread->thread_time.new_window_time;
-		current_thread->thread_time.new_window_time = 0;
+		current_thread->time_s.window_time = current_thread->time_s.new_window_time;
+		current_thread->time_s.new_window_time = 0;
 	}
 	
 	if (thread_list.size > 0)
@@ -429,8 +429,8 @@ void reset_runtime(void)
 		{
 			if ((struct thread_structure *)(list_node->object) != current_thread)
 			{
-				((struct thread_structure *)(list_node->object))->thread_time.window_time = ((struct thread_structure *)(list_node->object))->thread_time.new_window_time;
-				((struct thread_structure *)(list_node->object))->thread_time.new_window_time = 0;
+				((struct thread_structure *)(list_node->object))->time_s.window_time = ((struct thread_structure *)(list_node->object))->time_s.new_window_time;
+				((struct thread_structure *)(list_node->object))->time_s.new_window_time = 0;
 			}
 		}
 	}
@@ -486,7 +486,7 @@ void print_runtime_statistics(void)
 	
 	board_serial_programming_print("Runtimes\tStack\tCPU\n");
 	
-	int32_t cpu_usage = 1000000 - idle_thread->thread_time.window_time;
+	int32_t cpu_usage = 1000000 - idle_thread->time_s.window_time;
 	char k = cpu_usage / 10000;
 	board_serial_programming_print("\t\t\t");
 	board_serial_programming_write_percent(k, cpu_usage / 1000 - (k * 10));
@@ -544,8 +544,8 @@ void print_runtime_statistics(void)
 			board_serial_programming_write_percent(k, 10 * l / tmp_thread->stack_size);
 			board_serial_programming_print("\t");
 			
-			uint8_t tmp = tmp_thread->thread_time.window_time / 10000;
-			board_serial_programming_write_percent(tmp, tmp_thread->thread_time.window_time / 1000 - (tmp * 10));
+			uint8_t tmp = tmp_thread->time_s.window_time / 10000;
+			board_serial_programming_write_percent(tmp, tmp_thread->time_s.window_time / 1000 - (tmp * 10));
 			board_serial_programming_print(" : %s", tmp_thread->name);
 			board_serial_programming_print("\n");
 		}

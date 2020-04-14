@@ -10,7 +10,7 @@
 #include "file_system_fat.h"
 #include "dynamic_memory.h"
 #include "kernel.h"
-#include "core.h"
+#include "critical_section.h"
 #include "board_sd_card.h"
 #include "interrupt.h"
 #include "dynamic_loader.h"

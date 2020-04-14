@@ -18,18 +18,18 @@
 //--------------------------------------------------------------------------------------------------//
 
 
-typedef struct Mutex_s
+struct mutex
 {
 	uint32_t lock;
-} mutex_s;
+};
 
 
 //--------------------------------------------------------------------------------------------------//
 
 
-void mutex_lock(volatile mutex_s* mutex);
+void mutex_lock(struct mutex* mutex);
 
-void mutex_unlock(volatile mutex_s* mutex);
+void mutex_unlock(struct mutex* mutex);
 
 
 //--------------------------------------------------------------------------------------------------//

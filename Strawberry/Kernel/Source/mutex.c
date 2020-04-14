@@ -13,7 +13,7 @@
 //--------------------------------------------------------------------------------------------------//
 
 
-void mutex_lock(volatile mutex_s *mutex)
+void mutex_lock(struct mutex* mutex)
 {
 	uint32_t status = 0;
 	
@@ -37,7 +37,7 @@ void mutex_lock(volatile mutex_s *mutex)
 //--------------------------------------------------------------------------------------------------//
 
 
-void mutex_unlock(volatile mutex_s *mutex)
+void mutex_unlock(struct mutex* mutex)
 {
 	__DMB();
 

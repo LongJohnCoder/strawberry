@@ -5,7 +5,7 @@
 // software, if this copyright notice is included in all copies of
 // the software.
 
-#include "core.h"
+#include "critical_section.h"
 #include "cmsis_gcc.h"
 #include "core_cm7.h"
 

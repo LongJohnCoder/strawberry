@@ -5,8 +5,8 @@
 // software, if this copyright notice is included in all copies of
 // the software.
 
-#ifndef CORE_H
-#define CORE_H
+#ifndef CRITICAL_SECTION_H
+#define CRITICAL_SECTION_H
 
 
 //--------------------------------------------------------------------------------------------------//
@@ -31,9 +31,13 @@ void core_leave_critical_section(uint32_t volatile *atomic);
 	volatile uint32_t __atomic;					\
 	core_enter_critical_section(&__atomic);
 
-	#define CRITICAL_SECTION_LEAVE()			\
-	core_leave_critical_section(&__atomic);		\
+
+
+#define CRITICAL_SECTION_LEAVE()				\
+core_leave_critical_section(&__atomic);			\
 }
+
+
 
 
 //--------------------------------------------------------------------------------------------------//

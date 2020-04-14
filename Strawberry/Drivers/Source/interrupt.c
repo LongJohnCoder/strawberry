@@ -6,7 +6,7 @@
 // the software.
 
 #include "interrupt.h"
-#include "core.h"
+#include "critical_section.h"
 #include "core_cm7.h"
 
 

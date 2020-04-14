@@ -7,7 +7,7 @@
 
 #include "dram.h"
 #include "matrix.h"
-#include "core.h"
+#include "critical_section.h"
 #include "gpio.h"
 #include "clock.h"
 

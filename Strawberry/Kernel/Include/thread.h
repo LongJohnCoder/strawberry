@@ -21,7 +21,7 @@
 
 void thread_config(void);
 
-struct thread_structure* thread_new(char* thread_name, thread_function thread_func, void* thread_parameter, kernel_thread_priority priority, uint32_t stack_size);
+struct thread_structure* thread_new(char* thread_name, thread_function thread_func, void* thread_parameter, enum thread_priority priority, uint32_t stack_size);
 
 
 //--------------------------------------------------------------------------------------------------//

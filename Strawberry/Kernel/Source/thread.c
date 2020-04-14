@@ -7,7 +7,7 @@
 
 #include "thread.h"
 #include "dynamic_memory.h"
-#include "core.h"
+#include "critical_section.h"
 #include "check.h"
 #include "interrupt.h"
 
@@ -21,10 +21,10 @@
 //--------------------------------------------------------------------------------------------------//
 
 
-extern struct thread_structure* idle_thread;
-extern list_s running_queue;
 extern struct thread_structure* current_thread;
-extern list_s thread_list;
+extern struct thread_structure* idle_thread;
+extern list_s					running_queue;
+extern list_s					thread_list;
 
 
 //--------------------------------------------------------------------------------------------------//
@@ -53,7 +53,7 @@ void thread_config(void)
 //--------------------------------------------------------------------------------------------------//
 
 
-struct thread_structure* thread_new(char* thread_name, thread_function thread_func, void* thread_parameter, kernel_thread_priority priority, uint32_t stack_size)
+struct thread_structure* thread_new(char* thread_name, thread_function thread_func, void* thread_parameter, enum thread_priority priority, uint32_t stack_size)
 {
 	// We do NOT want any scheduler interrupting inside here
 	suspend_scheduler();

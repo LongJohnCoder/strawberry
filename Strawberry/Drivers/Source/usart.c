@@ -6,7 +6,7 @@
 // the software.
 
 #include "usart.h"
-#include "core.h"
+#include "critical_section.h"
 
 
 //--------------------------------------------------------------------------------------------------//

@@ -43,41 +43,41 @@ typedef void (*thread_function)(void *);
 // Bulk thread will have long response times. These are computationally heavy CPU
 // threads. Typical examples are background threads.
 
-typedef enum
+enum thread_priority
 {
 	THREAD_PRIORITY_REAL_TIME,
 	THREAD_PRIORITY_INTERACTIVE,
 	THREAD_PRIORITY_NORMAL,
 	THREAD_PRIORITY_BULK
-} kernel_thread_priority;
+};
 
 
 
-typedef enum
+enum thread_state
 {
 	THREAD_STATE_SUSPENDED,
 	THREAD_STATE_EXIT_PENDING,
 	THREAD_STATE_RUNNING
-} thread_state;
+};
 
 
 //--------------------------------------------------------------------------------------------------//
 
 
-typedef struct Thread_time_s
+struct thread_time
 {
 	// Total runtime in microseconds
-	volatile uint64_t					runtime;
+	uint64_t					runtime;
 	
 	// Window runtime in microseconds
 	// Typically calculated over a 1 second interval and used for runtime statistics.
 	// This value will be reset every second if used and uint32_t is therefore sufficient.
 	// Window time holds the microsecond runtime from the last seconds, while the new window
 	// time holds the microsecond runtime from the current second. 
-	volatile uint32_t					window_time;
-	volatile uint32_t					new_window_time;
+	uint32_t					window_time;
+	uint32_t					new_window_time;
 	
-} thread_time_s;
+};
 
 
 //--------------------------------------------------------------------------------------------------//
@@ -113,7 +113,7 @@ struct thread_structure
 	
 	
 	// Priority of the thread
-	kernel_thread_priority		priority;
+	enum thread_priority		priority;
 	
 	
 	// Time to wake is used for the thread delay function
@@ -121,11 +121,11 @@ struct thread_structure
 	
 	
 	// State of the thread
-	thread_state				state : THREAD_STATE_RUNNING;
+	enum thread_state			state;
 	
 	
 	// This section deals with timing and stuff
-	thread_time_s				thread_time;
+	struct thread_time			time_s;
 	
 	
 	uint64_t					context_switches;
@@ -134,6 +134,13 @@ struct thread_structure
 	// Store the name of the thread
 	char						name[KERNEL_THREAD_MAX_NAME_LENGTH];
 	
+};
+
+
+
+struct runqueue
+{
+	// This structure will hold the different run queues of the entire 	
 };
 
 

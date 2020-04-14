@@ -6,7 +6,7 @@
 // the software.
 
 #include "dma.h"
-#include "core.h"
+#include "critical_section.h"
 #include "clock.h"
 #include "interrupt.h"
 #include "config.h"

@@ -195,7 +195,7 @@
     <Compile Include="Drivers\Include\clock.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Drivers\Include\core.h">
+    <Compile Include="Drivers\Include\critical_section.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Drivers\Include\dma.h">
@@ -252,7 +252,7 @@
     <Compile Include="Drivers\Source\clock.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Drivers\Source\core.c">
+    <Compile Include="Drivers\Source\critical_section.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Drivers\Source\dma.c">
