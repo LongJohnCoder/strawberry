@@ -79,7 +79,7 @@ directory_t directory;
 file_info_t file_info;
 
 
-thread_s* file_thread;
+struct thread_structure* file_thread;
 
 
 //--------------------------------------------------------------------------------------------------//

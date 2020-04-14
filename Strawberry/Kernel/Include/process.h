@@ -21,7 +21,7 @@
 
 typedef struct Process_s
 {
-	thread_s* first;
+	struct thread_structure* first;
 	
 	
 } process_s;

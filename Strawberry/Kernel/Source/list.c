@@ -298,32 +298,17 @@ uint8_t list_remove_item(list_node_s* list_item, list_s* list)
 	}
 	else
 	{
-		// The element is not the first and not the last
-		// Start at the second element
-		list_node_s* list_iterator = list->first->next;
+		check(kernel_list_search(list_item, list) == 1);
+		list_item->next->prev = list_item->prev;
+		list_item->prev->next = list_item->next;
 		
-		while (list_iterator != list->last)
-		{
-			// Check for a match
-			if (list_item == list_iterator)
-			{
-				// Remove the connections
-				list_item->next->prev = list_item->prev;
-				list_item->prev->next = list_item->next;
-				
-				// Update the list_item pointers
-				list_item->next = NULL;
-				list_item->prev = NULL;
-				
-				list->size--;
-				
-				return 1;
-			}
-			
-			list_iterator = list_iterator->next;
-		}
+		// Update the list_item pointers
+		list_item->next = NULL;
+		list_item->prev = NULL;
 		
-		return 0;
+		list->size--;
+		
+		return 1;
 	}
 }
 

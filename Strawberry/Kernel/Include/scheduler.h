@@ -83,7 +83,7 @@ typedef struct Thread_time_s
 //--------------------------------------------------------------------------------------------------//
 
 
-typedef struct Tcb_s
+struct thread_structure
 {
 	// Points to the top of the stack
 	uint32_t*					stack_pointer;
@@ -94,7 +94,7 @@ typedef struct Tcb_s
 	
 	
 	// Points to the next thread in the list
-	struct Tcb_s*				next;
+	struct thread_structure*	next;
 	
 	
 	// The thread exist in two lists. The one used by the scheduler. And
@@ -134,7 +134,7 @@ typedef struct Tcb_s
 	// Store the name of the thread
 	char						name[KERNEL_THREAD_MAX_NAME_LENGTH];
 	
-} thread_s;
+};
 
 
 //--------------------------------------------------------------------------------------------------//

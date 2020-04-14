@@ -49,9 +49,9 @@ uint64_t kernel_statistics_timer;
 //		- The current pointer points to the current thread to be run
 //		- The next pointer is set by the scheduler and points to the next thread to run
 //
-thread_s* current_thread;
-thread_s* next_thread;
-thread_s* idle_thread;
+struct thread_structure* current_thread;
+struct thread_structure* next_thread;
+struct thread_structure* idle_thread;
 
 
 // This variable will hold the current state of the scheduler
@@ -283,7 +283,7 @@ void round_robin_scheduler(void)
 					list_insert_delay(&(current_thread->list_node), &delay_queue);
 					
 					// Update the kernel tick to wake
-					kernel_tick_to_wake = ((thread_s *)(delay_queue.first->object))->tick_to_wake;
+					kernel_tick_to_wake = ((struct thread_structure *)(delay_queue.first->object))->tick_to_wake;
 				}
 				else
 				{
@@ -374,13 +374,13 @@ static inline void process_expired_delays(void)
 {
 	list_node_s* list_iterator = delay_queue.first;
 	
-	check(((thread_s *)(delay_queue.first->object))->tick_to_wake <= kernel_tick_to_wake);
+	check(((struct thread_structure *)(delay_queue.first->object))->tick_to_wake <= kernel_tick_to_wake);
 	
 	uint16_t  i;
 	
 	for (i = 0; i < delay_queue.size; i++)
 	{
-		if (((thread_s *)(list_iterator->object))->tick_to_wake > kernel_tick_to_wake)
+		if (((struct thread_structure *)(list_iterator->object))->tick_to_wake > kernel_tick_to_wake)
 		{
 			break;
 		}
@@ -402,7 +402,7 @@ static inline void process_expired_delays(void)
 	}
 	else
 	{
-		kernel_tick_to_wake = ((thread_s *)(delay_queue.first->object))->tick_to_wake;
+		kernel_tick_to_wake = ((struct thread_structure *)(delay_queue.first->object))->tick_to_wake;
 	}
 }
 
@@ -427,10 +427,10 @@ void reset_runtime(void)
 		
 		list_iterate(list_node, &thread_list)
 		{
-			if ((thread_s *)(list_node->object) != current_thread)
+			if ((struct thread_structure *)(list_node->object) != current_thread)
 			{
-				((thread_s *)(list_node->object))->thread_time.window_time = ((thread_s *)(list_node->object))->thread_time.new_window_time;
-				((thread_s *)(list_node->object))->thread_time.new_window_time = 0;
+				((struct thread_structure *)(list_node->object))->thread_time.window_time = ((struct thread_structure *)(list_node->object))->thread_time.new_window_time;
+				((struct thread_structure *)(list_node->object))->thread_time.new_window_time = 0;
 			}
 		}
 	}
@@ -482,7 +482,7 @@ void thread_stack_overflow_event(char* data)
 
 void print_runtime_statistics(void)
 {
-	thread_s* tmp_thread;
+	struct thread_structure* tmp_thread;
 	
 	board_serial_programming_print("Runtimes\tStack\tCPU\n");
 	
@@ -534,7 +534,7 @@ void print_runtime_statistics(void)
 		
 		list_iterate(node, &thread_list)
 		{
-			tmp_thread = (thread_s *)(node->object);
+			tmp_thread = (struct thread_structure *)(node->object);
 			
 			board_serial_programming_print("%d\t\t", (uint32_t)tmp_thread->context_switches);
 			
