@@ -17,13 +17,13 @@ void blink_thread(void* arg)
 {
 	gpio_set_pin_function(PIOC, 8, PERIPHERAL_FUNCTION_OFF);
 	gpio_set_pin_direction_output(PIOC, 8);
-	
 	while (1)
 	{
-		gpio_clear_pin_value(PIOC, 8);
-		syscall_sleep(10);
-		gpio_set_pin_value(PIOC, 8);
-		syscall_sleep(490);
+		for (uint32_t i = 0; i < 100000000; i++)
+		{
+			asm volatile ("nop");
+		}
+		syscall_sleep(1000);
 	}
 }
 

@@ -15,6 +15,7 @@
 #include "board_serial.h"
 #include "cache.h"
 #include "compiler.h"
+#include "gpio.h"
 
 
 //--------------------------------------------------------------------------------------------------//
@@ -332,12 +333,14 @@ void round_robin_scheduler(void)
 		if (running_queue.last == NULL)
 		{
 			next_thread = idle_thread;
+			gpio_set_pin_value(PIOC, 8);
 		}
 		else
 		{
 			next_thread = running_queue.last->object;
 			
 			list_remove_last(&running_queue);
+			gpio_clear_pin_value(PIOC, 8);
 		}
 		
 		next_thread->context_switches++;
