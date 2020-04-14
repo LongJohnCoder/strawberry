@@ -15,6 +15,7 @@
 #include "sam.h"
 #include "config.h"
 #include "list.h"
+#include "spinlock.h"
 
 
 //--------------------------------------------------------------------------------------------------//
@@ -140,7 +141,33 @@ struct thread_structure
 
 struct runqueue
 {
-	// This structure will hold the different run queues of the entire 	
+	struct spinlock lock;
+	
+	// This structure will hold the different run queues of the entire
+	list_s real_time_queue;
+	list_s normal_queue;
+	list_s bulk_queue;
+	
+	// Blocked queues
+	list_s delay_queue;
+	list_s serial_queue;
+};
+
+
+
+struct scheduling_class
+{
+	struct scheduling_class* next;
+	
+	
+	struct thread_structure* (*pick_next_thread)(struct runqueue* rq);
+	
+	
+	void (*enqueue_last)	(struct runqueue* rq, struct thread_structure* thread);
+	void (*enqueue_first)	(struct runqueue* rq, struct thread_structure* thread);
+	void (*dequeue)			(struct runqueue* rq, struct thread_structure* thread);
+	void (*yield)			(struct runqueue* rq, struct thread_structure* thread);
+	void (*delay)			(struct runqueue* rq, struct thread_structure* thread);	
 };
 
 

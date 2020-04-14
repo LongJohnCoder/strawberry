@@ -484,7 +484,7 @@ void print_runtime_statistics(void)
 {
 	struct thread_structure* tmp_thread;
 	
-	board_serial_programming_print("Runtimes\tStack\tCPU\n");
+	board_serial_programming_print("Runtime\tStack\tCPU\n");
 	
 	int32_t cpu_usage = 1000000 - idle_thread->time_s.window_time;
 	char k = cpu_usage / 10000;

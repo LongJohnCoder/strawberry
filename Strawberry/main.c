@@ -11,6 +11,8 @@
 #include "mutex.h"
 #include "dynamic_memory.h"
 #include "thread.h"
+#include "spinlock.h"
+#include "critical_section.h"
 
 
 //--------------------------------------------------------------------------------------------------//
@@ -54,7 +56,7 @@ int main(void)
 	// Add some threads for test & debug purposes
 	thread_new("welcome", welcome_thread, NULL, THREAD_PRIORITY_REAL_TIME, 50);
 	thread_new("runtime", runtime_stats, NULL, THREAD_PRIORITY_NORMAL, 100);
-
+	
 
 	// Start the kernel
 	kernel_launch();
