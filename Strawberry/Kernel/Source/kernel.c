@@ -23,6 +23,7 @@
 #include "dram.h"
 #include "dma.h"
 #include "thread.h"
+#include "gpio.h"
 
 
 //--------------------------------------------------------------------------------------------------//
@@ -108,6 +109,11 @@ void kernel_startup(void)
 	
 	// Starts the whole files system in its own thread
 	file_system_command_line_config();
+	
+	
+	// Configure the led
+	gpio_set_pin_function(PIOC, 8, PERIPHERAL_FUNCTION_OFF);
+	gpio_set_pin_direction_output(PIOC, 8);
 }
 
 

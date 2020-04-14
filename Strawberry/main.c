@@ -6,7 +6,6 @@
 // the software.
 
 #include "kernel.h"
-#include "board_led.h"
 #include "board_serial.h"
 #include "gpio.h"
 #include "mutex.h"
@@ -53,7 +52,6 @@ int main(void)
 	
 	
 	// Add some threads for test & debug purposes
-	thread_new("blink", blink_thread, NULL, THREAD_PRIORITY_NORMAL, 100);
 	thread_new("welcome", welcome_thread, NULL, THREAD_PRIORITY_REAL_TIME, 50);
 	thread_new("runtime", runtime_stats, NULL, THREAD_PRIORITY_NORMAL, 100);
 
