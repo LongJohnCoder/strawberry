@@ -84,10 +84,11 @@ void SysTick_Handler()
 		scheduler.current_thread->time_s.new_window_time += 1000;
 	}
 	
-	if (scheduler.kernel_runtime_tick >= 1000000)
+	if (scheduler.kernel_tick > scheduler.tick_to_runtime)
 	{
 		reset_runtime();
 		scheduler.kernel_runtime_tick = 0;
+		scheduler.tick_to_runtime = scheduler.kernel_tick + 1000000;
 	}
 	
 	// Launch the scheduler
@@ -121,6 +122,7 @@ void kernel_launch(void)
 	
 	// Set the tick to wake variable to not trigger
 	scheduler.kernel_tick_to_wake = 0xffffffffffffffff;
+	scheduler.tick_to_runtime = scheduler.kernel_tick + 1000000;
 	
 	
 	// Set the current thread to point to the first thread to run

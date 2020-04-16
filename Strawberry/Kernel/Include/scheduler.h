@@ -189,6 +189,7 @@ struct scheduler_info
 	// overhead. The kernel will not check the list before at least one thread delay has expired.
 	uint64_t kernel_tick_to_wake;
 	uint64_t kernel_runtime_tick;
+	uint64_t tick_to_runtime;
 
 
 	// This variables controls the runtime modifications for a reschedule. After a reschedule the SysTick
