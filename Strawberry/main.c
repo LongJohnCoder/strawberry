@@ -44,6 +44,41 @@ void welcome_thread(void* arg)
 }
 
 
+void wav1(void* arg)
+{
+	gpio_set_pin_function(PIOB, 2, PERIPHERAL_FUNCTION_OFF);
+	gpio_set_pin_direction_output(PIOB, 2);
+	while (1)
+	{
+		gpio_toogle_pin_value(PIOB, 2);
+		syscall_sleep(1);
+	}
+}
+
+
+void wav2(void* arg)
+{
+	gpio_set_pin_function(PIOB, 3, PERIPHERAL_FUNCTION_OFF);
+	gpio_set_pin_direction_output(PIOB, 3);
+	while (1)
+	{
+		gpio_toogle_pin_value(PIOB, 3);
+		syscall_sleep(1);
+	}
+}
+
+
+void wav3(void* arg)
+{
+	gpio_set_pin_function(PIOA, 0, PERIPHERAL_FUNCTION_OFF);
+	gpio_set_pin_direction_output(PIOA, 0);
+	while (1)
+	{
+		gpio_toogle_pin_value(PIOA, 0);
+		syscall_sleep(1);
+	}
+}
+
 //--------------------------------------------------------------------------------------------------//
 
 
@@ -56,7 +91,9 @@ int main(void)
 	// Add some threads for test & debug purposes
 	thread_new("welcome", welcome_thread, NULL, THREAD_PRIORITY_REAL_TIME, 50);
 	thread_new("runtime", runtime_stats, NULL, THREAD_PRIORITY_NORMAL, 100);
-	
+	thread_new("wav1", wav1, NULL, THREAD_PRIORITY_NORMAL, 100);
+	thread_new("wav2", wav2, NULL, THREAD_PRIORITY_NORMAL, 100);
+	thread_new("wav3", wav3, NULL, THREAD_PRIORITY_NORMAL, 100);
 
 	// Start the kernel
 	kernel_launch();

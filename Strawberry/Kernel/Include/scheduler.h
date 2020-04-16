@@ -62,6 +62,16 @@ enum thread_state
 };
 
 
+
+
+
+typedef enum scheduler_status
+{
+	SCHEDULER_STATUS_RUNNING,
+	SCHEDULER_STATUS_SUSPENDED
+} kernel_scheduler_status;
+
+
 //--------------------------------------------------------------------------------------------------//
 
 
@@ -139,35 +149,56 @@ struct thread_structure
 
 
 
-struct runqueue
+struct scheduler_info
 {
-	struct spinlock lock;
+	struct thread_structure* current_thread;
+	struct thread_structure* next_thread;
 	
-	// This structure will hold the different run queues of the entire
-	list_s real_time_queue;
-	list_s normal_queue;
-	list_s bulk_queue;
+	// The kernel tick count the number of 1/1000 millisecond / time slice that the kernel has run for
+	uint64_t kernel_tick;
+	uint64_t kernel_statistics_timer;
+
+
+	// We use three pointers for the kernel
+	//
+	//		- The idle pointer point to the idle thread, this will run when no other threads are in the running state
+	//		- The current pointer points to the current thread to be run
+	//		- The next pointer is set by the scheduler and points to the next thread to run
+	//
 	
-	// Blocked queues
+	struct thread_structure* idle_thread;
+
+
+	// This variable will hold the current state of the scheduler
+	kernel_scheduler_status scheduler_status;
+
+
+	// Some lists that the kernel will use for the threads
+	list_s running_queue;
 	list_s delay_queue;
 	list_s serial_queue;
-};
+	list_s suspended_list;
 
 
+	// Holds all the threads in the system
+	list_s thread_list;
 
-struct scheduling_class
-{
-	struct scheduling_class* next;
-	
-	
-	struct thread_structure* (*pick_next_thread)(struct runqueue* rq);
-	
-	
-	void (*enqueue_last)	(struct runqueue* rq, struct thread_structure* thread);
-	void (*enqueue_first)	(struct runqueue* rq, struct thread_structure* thread);
-	void (*dequeue)			(struct runqueue* rq, struct thread_structure* thread);
-	void (*yield)			(struct runqueue* rq, struct thread_structure* thread);
-	void (*delay)			(struct runqueue* rq, struct thread_structure* thread);	
+
+	// Global tick to wake variable. This variable gets updated every time a thread is added or removed from the delay
+	// list. It holds the tick to wake value of the first thread to be put in the running queue again. This reduces the
+	// overhead. The kernel will not check the list before at least one thread delay has expired.
+	uint64_t kernel_tick_to_wake;
+	uint64_t kernel_runtime_tick;
+
+
+	// This variables controls the runtime modifications for a reschedule. After a reschedule the SysTick
+	// timer is reset, allowing the next thread a full time slice. If the reschedule pending variable is
+	// set the kernel will add the reschedule runtime instead of 1000 us.
+	uint8_t reschedule_pending;
+	uint64_t reschedule_runtime;
+
+
+	uint32_t systick_divider;
 };
 
 

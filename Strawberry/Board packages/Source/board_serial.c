@@ -361,6 +361,7 @@ static volatile serial_buffer* dma_buffer;
 
 extern list_s serial_queue;
 extern list_s running_queue;
+extern struct scheduler_info scheduler;
 
 // This function gets called when a DMA serial transaction has completed. The dma_buffer pointer
 // points to data that is successfully transmitted. 
@@ -370,11 +371,11 @@ void board_serial_dma_callback(uint8_t channel)
 	dma_buffer->dma_active = 0;
 	dma_buffer->position = 0;
 	
-	list_node_s* tmp = serial_queue.last;
+	list_node_s* tmp = scheduler.serial_queue.last;
 	if (tmp != NULL)
 	{
-		list_remove_last(&serial_queue);
-		list_insert_first(tmp, &running_queue);
+		list_remove_last(&scheduler.serial_queue);
+		list_insert_first(tmp, &scheduler.running_queue);
 	}
 }
 
@@ -495,7 +496,7 @@ void board_serial_dma_switch_buffers(void)
 	// We must check that the dma buffer is ready
 	while (dma_buffer->dma_active)
 	{
-		scheduler_current_thread_to_queue(&serial_queue);
+		scheduler_current_thread_to_queue(&scheduler.serial_queue);
 		
 		reschedule();
 	}

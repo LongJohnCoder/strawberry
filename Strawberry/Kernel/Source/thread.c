@@ -21,10 +21,7 @@
 //--------------------------------------------------------------------------------------------------//
 
 
-extern struct thread_structure* current_thread;
-extern struct thread_structure* idle_thread;
-extern list_s					running_queue;
-extern list_s					thread_list;
+extern struct scheduler_info scheduler;
 
 
 //--------------------------------------------------------------------------------------------------//
@@ -97,22 +94,22 @@ struct thread_structure* thread_new(char* thread_name, thread_function thread_fu
 	
 	
 	// The first thread to be made is the IDLE thread
-	if (idle_thread == NULL)
+	if (scheduler.idle_thread == NULL)
 	{
 		// Just loop that single thread
 		new_thread->next = new_thread;
 		
-		idle_thread = new_thread;
+		scheduler.idle_thread = new_thread;
 	}
 	else
 	{
-		new_thread->current_list = &running_queue;
+		new_thread->current_list = &scheduler.running_queue;
 		new_thread->next_list = NULL;
 		new_thread->list_node.object = new_thread;
 		new_thread->thread_list.object = new_thread;
 		
-		list_insert_first(&(new_thread->list_node), &running_queue);
-		list_insert_first(&(new_thread->thread_list), &thread_list);
+		list_insert_first(&(new_thread->list_node), &scheduler.running_queue);
+		list_insert_first(&(new_thread->thread_list), &scheduler.thread_list);
 	}
 	
 	//cache_clean_addresses((uint32_t *)new_thread, sizeof(thread_s));
@@ -165,7 +162,7 @@ uint32_t* thread_stack_init(uint32_t* stack_pointer, thread_function thread_func
 
 static void kernel_delete_thread(void)
 {
-	current_thread->state = THREAD_STATE_EXIT_PENDING;
+	scheduler.current_thread->state = THREAD_STATE_EXIT_PENDING;
 	
 	reschedule();
 	
