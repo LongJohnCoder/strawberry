@@ -69,25 +69,26 @@ static inline void process_expired_delays(void);
 
 void SysTick_Handler()
 {
+	// First we check if a reschedule has occurred since the last context switch.
+	// In that case the thread has not run for a full time slice. The rescheduler
+	// will calculate the runtime, which will be added here, if a reschedule has occurred. 
 	if (scheduler.reschedule_pending)
 	{
 		scheduler.reschedule_pending = 0;
 		
 		scheduler.kernel_tick += scheduler.reschedule_runtime;
-		scheduler.kernel_runtime_tick += scheduler.reschedule_runtime;
 		scheduler.current_thread->time_s.new_window_time += scheduler.reschedule_runtime;
 	}
 	else
 	{
 		scheduler.kernel_tick += 1000;
-		scheduler.kernel_runtime_tick += 1000;
 		scheduler.current_thread->time_s.new_window_time += 1000;
 	}
+	
 	
 	if (scheduler.kernel_tick > scheduler.tick_to_runtime)
 	{
 		reset_runtime();
-		scheduler.kernel_runtime_tick = 0;
 		scheduler.tick_to_runtime = scheduler.kernel_tick + 1000000;
 	}
 	

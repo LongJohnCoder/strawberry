@@ -359,8 +359,6 @@ static volatile serial_buffer* dma_buffer;
 #include "scheduler.h"
 #include "list.h"
 
-extern list_s serial_queue;
-extern list_s running_queue;
 extern struct scheduler_info scheduler;
 
 // This function gets called when a DMA serial transaction has completed. The dma_buffer pointer
@@ -370,7 +368,7 @@ void board_serial_dma_callback(uint8_t channel)
 {
 	dma_buffer->dma_active = 0;
 	dma_buffer->position = 0;
-	
+
 	list_node_s* tmp = scheduler.serial_queue.last;
 	if (tmp != NULL)
 	{
