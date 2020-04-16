@@ -76,20 +76,20 @@ void SysTick_Handler()
 	{
 		scheduler.reschedule_pending = 0;
 		
-		scheduler.kernel_tick += scheduler.reschedule_runtime;
-		scheduler.current_thread->time_s.new_window_time += scheduler.reschedule_runtime;
+		scheduler.tick += scheduler.reschedule_runtime;
+		scheduler.current_thread->stats.new_window_time += scheduler.reschedule_runtime;
 	}
 	else
 	{
-		scheduler.kernel_tick += 1000;
-		scheduler.current_thread->time_s.new_window_time += 1000;
+		scheduler.tick += 1000;
+		scheduler.current_thread->stats.new_window_time += 1000;
 	}
 	
 	
-	if (scheduler.kernel_tick > scheduler.tick_to_runtime)
+	if (scheduler.tick > scheduler.tick_to_runtime)
 	{
 		reset_runtime();
-		scheduler.tick_to_runtime = scheduler.kernel_tick + 1000000;
+		scheduler.tick_to_runtime = scheduler.tick + 1000000;
 	}
 	
 	// Launch the scheduler
@@ -113,17 +113,16 @@ void kernel_launch(void)
 	scheduler.systick_divider = 300000000 / KERNEL_TICK_FREQUENCY / 1000;
 	
 	// Start the scheduler
-	scheduler.scheduler_status = SCHEDULER_STATUS_RUNNING;
+	scheduler.status = SCHEDULER_STATUS_RUNNING;
 	
 	
 	// Update the kernel tick and tick to wake
-	scheduler.kernel_tick = 0;
-	scheduler.kernel_statistics_timer = 0;
+	scheduler.tick = 0;
 	
 	
 	// Set the tick to wake variable to not trigger
-	scheduler.kernel_tick_to_wake = 0xffffffffffffffff;
-	scheduler.tick_to_runtime = scheduler.kernel_tick + 1000000;
+	scheduler.tick_to_wake = 0xffffffffffffffff;
+	scheduler.tick_to_runtime = scheduler.tick + 1000000;
 	
 	
 	// Set the current thread to point to the first thread to run
@@ -183,7 +182,7 @@ void thread_delay(uint32_t ticks)
 	
 	
 	// Calculate the right tick to wake
-	uint32_t tmp = scheduler.kernel_tick + ticks * 1000;
+	uint32_t tmp = scheduler.tick + ticks * 1000;
 	
 	
 	// Write the value to the thread control block
@@ -214,7 +213,7 @@ void thread_delay(uint32_t ticks)
 void round_robin_scheduler(void)
 {
 	// Do not allow any context switch when the scheduler is suspended
-	if (likely(scheduler.scheduler_status == SCHEDULER_STATUS_RUNNING))
+	if (likely(scheduler.status == SCHEDULER_STATUS_RUNNING))
 	{
 		
 		// This first part processes the thread that is done executing. This may involve
@@ -231,7 +230,7 @@ void round_robin_scheduler(void)
 					list_insert_delay(&scheduler.current_thread->list_node, &scheduler.delay_queue);
 					
 					// Update the kernel tick to wake
-					scheduler.kernel_tick_to_wake = ((struct thread_structure *)(scheduler.delay_queue.first->object))->tick_to_wake;
+					scheduler.tick_to_wake = ((struct thread_structure *)(scheduler.delay_queue.first->object))->tick_to_wake;
 				}
 				else
 				{
@@ -255,7 +254,7 @@ void round_robin_scheduler(void)
 						}
 					}
 					
-					list_remove_item(&(scheduler.current_thread->thread_list), &scheduler.thread_list);
+					list_remove_item(&(scheduler.current_thread->thread_list), &scheduler.threads);
 					
 					// Then we have to delete the memory resources
 					//dynamic_memory_free(kernel_current_thread_pointer->stack_base);
@@ -271,7 +270,7 @@ void round_robin_scheduler(void)
 		// Now we check if some delays has expired. Is so, all the expired threads has to be
 		// moved to the running queue. This function will place the threads last in the running
 		// queue, such that the are run first. 
-		if (scheduler.kernel_tick_to_wake <= scheduler.kernel_tick)
+		if (scheduler.tick_to_wake <= scheduler.tick)
 		{
 			process_expired_delays();
 		}
@@ -322,13 +321,13 @@ static inline void process_expired_delays(void)
 {
 	list_node_s* list_iterator = scheduler.delay_queue.first;
 	
-	check(((struct thread_structure *)(scheduler.delay_queue.first->object))->tick_to_wake <= scheduler.kernel_tick_to_wake);
+	check(((struct thread_structure *)(scheduler.delay_queue.first->object))->tick_to_wake <= scheduler.tick_to_wake);
 	
 	uint16_t  i;
 	
 	for (i = 0; i < scheduler.delay_queue.size; i++)
 	{
-		if (((struct thread_structure *)(list_iterator->object))->tick_to_wake > scheduler.kernel_tick_to_wake)
+		if (((struct thread_structure *)(list_iterator->object))->tick_to_wake > scheduler.tick_to_wake)
 		{
 			break;
 		}
@@ -346,11 +345,11 @@ static inline void process_expired_delays(void)
 	if (list_iterator == NULL)
 	{
 		// No threads left in the queue
-		scheduler.kernel_tick_to_wake = 0xffffffffffffffff;
+		scheduler.tick_to_wake = 0xffffffffffffffff;
 	}
 	else
 	{
-		scheduler.kernel_tick_to_wake = ((struct thread_structure *)(scheduler.delay_queue.first->object))->tick_to_wake;
+		scheduler.tick_to_wake = ((struct thread_structure *)(scheduler.delay_queue.first->object))->tick_to_wake;
 	}
 }
 
@@ -360,25 +359,25 @@ static inline void process_expired_delays(void)
 
 void reset_runtime(void)
 {
-	scheduler.idle_thread->time_s.window_time = scheduler.idle_thread->time_s.new_window_time;
-	scheduler.idle_thread->time_s.new_window_time = 0;
+	scheduler.idle_thread->stats.window_time = scheduler.idle_thread->stats.new_window_time;
+	scheduler.idle_thread->stats.new_window_time = 0;
 	
 	if (scheduler.current_thread != scheduler.idle_thread)
 	{
-		scheduler.current_thread->time_s.window_time = scheduler.current_thread->time_s.new_window_time;
-		scheduler.current_thread->time_s.new_window_time = 0;
+		scheduler.current_thread->stats.window_time = scheduler.current_thread->stats.new_window_time;
+		scheduler.current_thread->stats.new_window_time = 0;
 	}
 	
-	if (scheduler.thread_list.size > 0)
+	if (scheduler.threads.size > 0)
 	{
 		list_node_s* list_node;
 		
-		list_iterate(list_node, &scheduler.thread_list)
+		list_iterate(list_node, &scheduler.threads)
 		{
 			if ((struct thread_structure *)(list_node->object) != scheduler.current_thread)
 			{
-				((struct thread_structure *)(list_node->object))->time_s.window_time = ((struct thread_structure *)(list_node->object))->time_s.new_window_time;
-				((struct thread_structure *)(list_node->object))->time_s.new_window_time = 0;
+				((struct thread_structure *)(list_node->object))->stats.window_time = ((struct thread_structure *)(list_node->object))->stats.new_window_time;
+				((struct thread_structure *)(list_node->object))->stats.new_window_time = 0;
 			}
 		}
 	}
@@ -390,8 +389,8 @@ void reset_runtime(void)
 
 void suspend_scheduler(void)
 {
-	(void)scheduler.scheduler_status;
-	scheduler.scheduler_status = SCHEDULER_STATUS_SUSPENDED;
+	(void)scheduler.status;
+	scheduler.status = SCHEDULER_STATUS_SUSPENDED;
 }
 
 
@@ -400,8 +399,8 @@ void suspend_scheduler(void)
 
 void resume_scheduler(void)
 {
-	(void)scheduler.scheduler_status;
-	scheduler.scheduler_status = SCHEDULER_STATUS_RUNNING;
+	(void)scheduler.status;
+	scheduler.status = SCHEDULER_STATUS_RUNNING;
 }
 
 
@@ -434,7 +433,7 @@ void print_runtime_statistics(void)
 	
 	board_serial_programming_print("Runtime\tStack\tCPU\n");
 	
-	int32_t cpu_usage = 1000000 - scheduler.idle_thread->time_s.window_time;
+	int32_t cpu_usage = 1000000 - scheduler.idle_thread->stats.window_time;
 	char k = cpu_usage / 10000;
 	board_serial_programming_print("\t\t\t");
 	board_serial_programming_write_percent(k, cpu_usage / 1000 - (k * 10));
@@ -476,11 +475,11 @@ void print_runtime_statistics(void)
 	
 	board_serial_programming_print("\n");
 	
-	if (scheduler.thread_list.size != 0)
+	if (scheduler.threads.size != 0)
 	{
 		list_node_s* node;
 		
-		list_iterate(node, &scheduler.thread_list)
+		list_iterate(node, &scheduler.threads)
 		{
 			tmp_thread = (struct thread_structure *)(node->object);
 			
@@ -492,8 +491,8 @@ void print_runtime_statistics(void)
 			board_serial_programming_write_percent(k, 10 * l / tmp_thread->stack_size);
 			board_serial_programming_print("\t");
 			
-			uint8_t tmp = tmp_thread->time_s.window_time / 10000;
-			board_serial_programming_write_percent(tmp, tmp_thread->time_s.window_time / 1000 - (tmp * 10));
+			uint8_t tmp = tmp_thread->stats.window_time / 10000;
+			board_serial_programming_write_percent(tmp, tmp_thread->stats.window_time / 1000 - (tmp * 10));
 			board_serial_programming_print(" : %s", tmp_thread->name);
 			board_serial_programming_print("\n");
 		}

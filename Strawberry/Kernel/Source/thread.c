@@ -109,7 +109,7 @@ struct thread_structure* thread_new(char* thread_name, thread_function thread_fu
 		new_thread->thread_list.object = new_thread;
 		
 		list_insert_first(&(new_thread->list_node), &scheduler.running_queue);
-		list_insert_first(&(new_thread->thread_list), &scheduler.thread_list);
+		list_insert_first(&(new_thread->thread_list), &scheduler.threads);
 	}
 	
 	//cache_clean_addresses((uint32_t *)new_thread, sizeof(thread_s));

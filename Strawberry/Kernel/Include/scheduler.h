@@ -136,7 +136,7 @@ struct thread_structure
 	
 	
 	// This section deals with timing and stuff
-	struct thread_time			time_s;
+	struct thread_time			stats;
 	
 	
 	uint64_t					context_switches;
@@ -153,10 +153,10 @@ struct scheduler_info
 {
 	struct thread_structure* current_thread;
 	struct thread_structure* next_thread;
+	struct thread_structure* idle_thread;
 	
 	// The kernel tick count the number of 1/1000 millisecond / time slice that the kernel has run for
-	uint64_t kernel_tick;
-	uint64_t kernel_statistics_timer;
+	uint64_t tick;
 
 
 	// We use three pointers for the kernel
@@ -166,11 +166,11 @@ struct scheduler_info
 	//		- The next pointer is set by the scheduler and points to the next thread to run
 	//
 	
-	struct thread_structure* idle_thread;
+	
 
 
 	// This variable will hold the current state of the scheduler
-	kernel_scheduler_status scheduler_status;
+	enum scheduler_status status;
 
 
 	// Some lists that the kernel will use for the threads
@@ -181,14 +181,13 @@ struct scheduler_info
 
 
 	// Holds all the threads in the system
-	list_s thread_list;
+	list_s threads;
 
 
 	// Global tick to wake variable. This variable gets updated every time a thread is added or removed from the delay
 	// list. It holds the tick to wake value of the first thread to be put in the running queue again. This reduces the
 	// overhead. The kernel will not check the list before at least one thread delay has expired.
-	uint64_t kernel_tick_to_wake;
-	uint64_t kernel_runtime_tick;
+	uint64_t tick_to_wake;
 	uint64_t tick_to_runtime;
 
 
