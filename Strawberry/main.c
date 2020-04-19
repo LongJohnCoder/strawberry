@@ -13,6 +13,8 @@
 #include "thread.h"
 #include "spinlock.h"
 #include "critical_section.h"
+#include "fat.h"
+#include "file_system_fat.h"
 
 
 //--------------------------------------------------------------------------------------------------//
@@ -86,17 +88,22 @@ int main(void)
 {
 	// This functions starts up the kernel and initializes the basic drivers
 	kernel_startup();
-	
-	
-	// Add some threads for test & debug purposes
-	thread_new("welcome", welcome_thread, NULL, THREAD_PRIORITY_REAL_TIME, 50);
-	thread_new("runtime", runtime_stats, NULL, THREAD_PRIORITY_NORMAL, 100);
-	thread_new("wav1", wav1, NULL, THREAD_PRIORITY_NORMAL, 100);
-	thread_new("wav2", wav2, NULL, THREAD_PRIORITY_NORMAL, 100);
-	thread_new("wav3", wav3, NULL, THREAD_PRIORITY_NORMAL, 100);
+	board_sd_card_config();
+	board_serial_print("Heisann\n");
+	/*
+	uint8_t retry_count = 0;
+	file_system_t cortex_file_system;
+	while (retry_count++ < 5)
+	{
+		if (file_mount(&cortex_file_system, "", 1) == FR_OK)
+		{
+			break;
+		}
 
-	// Start the kernel
-	kernel_launch();
+	}
+	*/
+	
+	fat_config();
 	
 	while (1);
 }

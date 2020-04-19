@@ -224,13 +224,13 @@ void board_serial_print(char* data, ...)
 	va_end(ap);
 	*s = 0;
 
-	/*while (*start != '\0')
+	while (*start != '\0')
 	{
 		usart_write(USART1, *start);
 		start++;
-	}*/
+	}
 	
-	board_serial_dma_print(start);
+	//board_serial_dma_print(start);
 }
 
 
@@ -368,13 +368,6 @@ void board_serial_dma_callback(uint8_t channel)
 {
 	dma_buffer->dma_active = 0;
 	dma_buffer->position = 0;
-
-	list_node_s* tmp = scheduler.serial_queue.last;
-	if (tmp != NULL)
-	{
-		list_remove_last(&scheduler.serial_queue);
-		list_insert_first(tmp, &scheduler.running_queue);
-	}
 }
 
 
@@ -494,9 +487,7 @@ void board_serial_dma_switch_buffers(void)
 	// We must check that the dma buffer is ready
 	while (dma_buffer->dma_active)
 	{
-		scheduler_current_thread_to_queue(&scheduler.serial_queue);
 		
-		reschedule();
 	}
 	
 	// After the DMA transaction is complete we switch the buffers

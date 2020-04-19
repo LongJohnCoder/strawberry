@@ -3289,7 +3289,7 @@ static DWORD make_rand (
 /*-----------------------------------------------------------------------*/
 
 /* Check what the sector is */
-
+#include "board_serial.h"
 static UINT check_fs (	/* 0:FAT VBR, 1:exFAT VBR, 2:Valid BS but not FAT, 3:Invalid BS, 4:Disk error */
 	FATFS* fs,			/* Filesystem object */
 	LBA_t sect			/* Sector to load and check if it is an FAT-VBR or not */
@@ -3297,7 +3297,15 @@ static UINT check_fs (	/* 0:FAT VBR, 1:exFAT VBR, 2:Valid BS but not FAT, 3:Inva
 {
 	fs->wflag = 0; fs->winsect = (LBA_t)0 - 1;		/* Invaidate window */
 	if (move_window(fs, sect) != FR_OK) return 4;	/* Load the boot sector */
-
+	for (uint16_t i = 0; i < 512; i++)
+	{
+		board_serial_print_hex(fs->win[i]);
+		board_serial_print("\t");
+		if ((i != 0) && (((i + 11) % 10) == 0))
+		{
+			board_serial_print("\n");
+		}
+	}
 	if (ld_word(fs->win + BS_55AA) != 0xAA55) return 3;	/* Check boot signature (always here regardless of the sector size) */
 
 	if (FF_FS_EXFAT && !mem_cmp(fs->win + BS_JmpBoot, "\xEB\x76\x90" "EXFAT   ", 11)) return 1;	/* Check if exFAT VBR */
@@ -3322,7 +3330,8 @@ static UINT find_volume (	/* Returns BS status found in the hosting drive */
 	DWORD mbr_pt[4];
 
 
-	fmt = check_fs(fs, 0);				/* Load sector 0 and check if it is an FAT VBR as SFD */
+	fmt = check_fs(fs, 0);	
+	board_serial_print("\n%d\n", fmt);			/* Load sector 0 and check if it is an FAT VBR as SFD */
 	if (fmt != 2 && (fmt >= 3 || part == 0)) return fmt;	/* Returns if it is a FAT VBR as auto scan, not a BS or disk error */
 
 	/* Sector 0 is not an FAT VBR or forced partition number wants a partition */
@@ -3341,7 +3350,9 @@ static UINT find_volume (	/* Returns BS status found in the hosting drive */
 			ofs = i * SZ_GPTE % SS(fs);												/* Offset in the sector */
 			if (!mem_cmp(fs->win + ofs + GPTE_PtGuid, GUID_MS_Basic, 16)) {	/* MS basic data partition? */
 				v_ent++;
-				fmt = check_fs(fs, ld_qword(fs->win + ofs + GPTE_FstLba));	/* Load VBR and check status */
+				board_serial_print("Here it comes\n");
+				fmt = check_fs(fs, ld_qword(fs->win + ofs + GPTE_FstLba));	
+				board_serial_print("Done\n");/* Load VBR and check status */
 				if (part == 0 && fmt <= 1) return fmt;			/* Auto search (valid FAT volume found first) */
 				if (part != 0 && v_ent == part) return fmt;		/* Forced partition order (regardless of it is valid or not) */
 			}
@@ -3355,7 +3366,9 @@ static UINT find_volume (	/* Returns BS status found in the hosting drive */
 	}
 	i = part ? part - 1 : 0;		/* Table index to find first */
 	do {							/* Find an FAT volume */
+		board_serial_print("Here it comes\n");
 		fmt = mbr_pt[i] ? check_fs(fs, mbr_pt[i]) : 3;	/* Check if the partition is FAT */
+		board_serial_print("Done %d  %d\n", mbr_pt[i], fmt);
 	} while (part == 0 && fmt >= 2 && ++i < 4);
 	return fmt;
 }
