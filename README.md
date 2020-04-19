@@ -1,7 +1,7 @@
-<img width="100" src="https://github.com/bjornbrodtkorb/strawberry/blob/master/Graphics/logo.png">
-
 # Strawberry
 Strawberry is a lightweight operating system designed for ARM processors. It comes with a port for the Cortex-M series.
+
+<img width="500" src="https://github.com/StrawberryHacker/strawberry/blob/master/Graphics/block.png">
 
 # Features
 
