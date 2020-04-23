@@ -116,6 +116,7 @@
       <Value>../Memory/Include</Value>
       <Value>../SD/Include</Value>
       <Value>../USB/Include</Value>
+      <Value>../FAT32/Include</Value>
     </ListValues>
   </armgcc.compiler.directories.IncludePaths>
   <armgcc.compiler.optimization.level>Optimize most (-O3)</armgcc.compiler.optimization.level>
@@ -300,6 +301,12 @@
     <Compile Include="Drivers\Source\watchdog.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="FAT32\Include\fat32.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="FAT32\Source\fat32.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="File system\Include\fat.h">
       <SubType>compile</SubType>
     </Compile>
@@ -459,6 +466,9 @@
     <Folder Include="Drivers\" />
     <Folder Include="Drivers\Include\" />
     <Folder Include="Drivers\Source\" />
+    <Folder Include="FAT32\" />
+    <Folder Include="FAT32\Include\" />
+    <Folder Include="FAT32\Source\" />
     <Folder Include="File system\" />
     <Folder Include="File system\Include\" />
     <Folder Include="File system\Source\" />
