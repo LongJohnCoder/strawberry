@@ -301,13 +301,16 @@
     <Compile Include="Drivers\Source\watchdog.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="FAT32\Include\fat32.h">
+    <Compile Include="FAT32\Include\disk.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="FAT32\Source\fat32.c">
+    <Compile Include="FAT32\Include\fat.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="File system\Include\fat.h">
+    <Compile Include="FAT32\Source\disk.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="FAT32\Source\fat.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="File system\Include\file_system_config.h">
@@ -317,9 +320,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="File system\Include\file_system_io.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="File system\Source\fat.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="File system\Source\file_system_fat.c">
