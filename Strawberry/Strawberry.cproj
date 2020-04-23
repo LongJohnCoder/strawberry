@@ -301,13 +301,13 @@
     <Compile Include="Drivers\Source\watchdog.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="FAT32\Include\disk.h">
+    <Compile Include="FAT32\Include\disk_interface.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="FAT32\Include\fat.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="FAT32\Source\disk.c">
+    <Compile Include="FAT32\Source\disk_interface.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="FAT32\Source\fat.c">

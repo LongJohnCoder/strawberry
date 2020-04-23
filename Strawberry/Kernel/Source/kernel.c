@@ -26,6 +26,7 @@
 #include "gpio.h"
 
 
+
 //--------------------------------------------------------------------------------------------------//
 
 
@@ -114,6 +115,8 @@ void kernel_startup(void)
 	// Configure the led
 	gpio_set_pin_function(PIOC, 8, PERIPHERAL_FUNCTION_OFF);
 	gpio_set_pin_direction_output(PIOC, 8);
+	
+	board_sd_card_config();
 }
 
 

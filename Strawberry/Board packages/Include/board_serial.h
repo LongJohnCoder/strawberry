@@ -53,6 +53,8 @@ void board_serial_print_register(char* data, uint32_t reg);
 
 void board_serial_print_hex(char c);
 
+void board_serial_print_n(const char* buffer, uint32_t size);
+
 
 //--------------------------------------------------------------------------------------------------//
 

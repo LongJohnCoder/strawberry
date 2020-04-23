@@ -237,6 +237,18 @@ void board_serial_print(char* data, ...)
 //--------------------------------------------------------------------------------------------------//
 
 
+void board_serial_print_n(const char* buffer, uint32_t size)
+{
+	while (size--)
+	{
+		usart_write(USART1, *buffer++);
+	}
+}
+
+
+//--------------------------------------------------------------------------------------------------//
+
+
 void board_serial_write(char data)
 {
 	usart_write(USART1, data);
