@@ -45,38 +45,11 @@ int main(void)
 	// This functions starts up the kernel and initializes the basic drivers
 	kernel_startup();
 	
-	board_serial_print("BIOS success\n\n");
-	
-	// Test the FAT32 file system
-	
-	struct disk test = {.disk_number = 1};
-	
-	
-	
-	board_serial_print("Size of the volume: %d\n", sizeof(struct volume));
-	
-	// We use dynamic memory so lets check the stats for it
-	uint8_t percent = dynamic_memory_get_used_percentage(SRAM);
-	board_serial_print_percentage_symbol("Memory: ", percent, 1);
-	
-	disk_mount(&test);
-	
-	percent = dynamic_memory_get_used_percentage(SRAM);
-	board_serial_print_percentage_symbol("Memory: ", percent, 1);
-	
-	
-	
-	struct volume* first_fat = fat_get_first_volume();
-	
-	first_fat = first_fat->next;
-	
-	board_serial_print_n(first_fat->label, 11);
-	board_serial_print(" (%c:)\n", first_fat->letter);
-	
-	test_print_directories(first_fat);
+	thread_new("Runtime", runtime_stats, NULL, THREAD_PRIORITY_INTERACTIVE, 100);
+	thread_new("FAT32", fat_32_thread, NULL, THREAD_PRIORITY_INTERACTIVE, 300);	
 
 	
-	while (1);
+	kernel_launch();
 }
 
 

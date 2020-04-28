@@ -49,9 +49,9 @@ board_sd_status board_sd_card_get_status(void)
 
 	if (tmp & (1 << 16))
 	{
-		return SD_DISCONNECTED;
+		return 0;
 	}
-	return SD_CONNECTED;
+	return 1;
 }
 
 

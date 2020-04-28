@@ -31,7 +31,8 @@
 typedef enum
 {
 	SYSCALL_DELAY = 1,
-	SYSCALL_PRINT = 10
+	SYSCALL_PRINT = 10,
+	SYSCALL_GPIO_STATUS = 11
 } kernel_services;
 
 
@@ -42,6 +43,8 @@ typedef enum
 void SYSCALL_NOINLINE syscall_print(char* data);
 
 void SYSCALL_NOINLINE syscall_sleep(uint32_t ticks);
+
+void SYSCALL_NOINLINE syscall_gpio_status(Pio* port, uint32_t* reg);
 
 
 //--------------------------------------------------------------------------------------------------//

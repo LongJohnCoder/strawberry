@@ -27,15 +27,15 @@ void core_leave_critical_section(uint32_t volatile *atomic);
 
 
 #define CRITICAL_SECTION_ENTER()				\
-	{											\
-	volatile uint32_t __atomic;					\
+{								\
+	volatile uint32_t __atomic;				\
 	core_enter_critical_section(&__atomic);
 
 
 
 #define CRITICAL_SECTION_LEAVE()				\
-	core_leave_critical_section(&__atomic);		\
-	}
+	core_leave_critical_section(&__atomic);			\
+}
 
 
 

@@ -37,7 +37,7 @@ typedef enum
 
 
 
-volatile kernel_fast_programming_state fast_programming_state;
+volatile kernel_fast_programming_state fast_programming_state = FAST_PROGRAMMING_IDLE;
 uint8_t program_size_index;
 uint32_t program_size;
 uint32_t program_index;

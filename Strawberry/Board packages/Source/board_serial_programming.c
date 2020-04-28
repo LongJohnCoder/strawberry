@@ -63,7 +63,7 @@ static void board_serial_x_mode_config(void)
 	usart_mode_config(USART0, USART_STOP_BIT_1, USART_PARITY_NO, USART_MODE_ASYNCHRONOUS, BOARD_SERIAL_PROGRAMMING_CD_VALUE);
 	
 	usart_interrupt_enable(USART0, USART_IRQ_RX_READY);
-	interrupt_enable_peripheral_interrupt(USART0_IRQn, IRQ_LEVEL_1);
+	interrupt_enable_peripheral_interrupt(USART0_IRQn, IRQ_LEVEL_4);
 }
 
 

@@ -27,7 +27,7 @@ void board_button_config(void)
 	
 	gpio_set_interrupt_source(PIOA, 11, GPIO_FALLING_EDGE);
 	
-	// Enable interrupt if user button reset should be enabled
+	//Enable interrupt if user button reset should be enabled
 	//gpio_interrupt_enable(PIOA, 11);
 	//interrupt_enable_peripheral_interrupt(PIOA_IRQn, IRQ_LEVEL_3);
 }

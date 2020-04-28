@@ -109,7 +109,7 @@ void kernel_startup(void)
 	
 	
 	// Starts the whole files system in its own thread
-	file_system_command_line_config();
+	//file_system_command_line_config();
 	
 	
 	// Configure the led

@@ -213,6 +213,55 @@ void board_serial_print(char* data, ...)
 					data++;
 					break;
 				}
+				case 'h': {
+					char value_hex = va_arg(ap, int);
+					
+					char value_low = value_hex & 0b1111;
+					char value_high = (value_hex >> 4) & 0b1111;
+					
+					if (value_high < 10)
+					{
+						*s = '0' + value_high;
+					}
+					else
+					{
+						value_high -= 10;
+						*s = 'A' + value_high;
+					}
+					s++;
+					if (value_low < 10)
+					{
+						*s = '0' + value_low;
+					}
+					else
+					{
+						value_low -= 10;
+						*s = 'A' + value_low;
+					}
+					s++;
+					n += 2;
+					data++;
+					break;
+				}
+				case 'b' : {
+					char value_binary = va_arg(ap, int);
+					
+					for (uint8_t i = 0; i < 8; i++)
+					{
+						if (value_binary & (1 << (7 - i)))
+						{
+							*s = '1';
+						}
+						else
+						{
+							*s = '0';
+						}
+						s++;
+						n++;
+					}
+					data++;
+					break;
+				}
 				default:
 				*s = *data;
 				s++;

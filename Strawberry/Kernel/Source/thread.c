@@ -116,6 +116,8 @@ struct thread_structure* thread_new(char* thread_name, thread_function thread_fu
 	//cache_clean_addresses((uint32_t *)new_thread->stack_base, stack_size);
 	
 	SCB_CleanDCache();
+	__DSB();
+	__ISB();
 	
 	resume_scheduler();
 	

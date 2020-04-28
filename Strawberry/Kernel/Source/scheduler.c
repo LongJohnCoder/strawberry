@@ -215,6 +215,17 @@ void round_robin_scheduler(void)
 	// Do not allow any context switch when the scheduler is suspended
 	if (likely(scheduler.status == SCHEDULER_STATUS_RUNNING))
 	{
+		int32_t free_stack = (int32_t)((uint32_t)scheduler.current_thread->stack_base + (uint32_t)scheduler.current_thread->stack_size - (uint32_t)scheduler.current_thread->stack_pointer);
+		uint32_t stack_size = scheduler.current_thread->stack_size;
+		uint32_t stack_usage = stack_size - free_stack;
+		
+		
+		if (stack_usage >= stack_size)
+		{
+			// This thread is not going to run anymore
+			thread_stack_overflow_event(scheduler.current_thread->name);
+			list_insert_first(&scheduler.current_thread->list_node, &scheduler.suspended_list);
+		}
 		
 		// This first part processes the thread that is done executing. This may involve
 		// placing the thread in another list i.e. suspend the thread, or deleting the
@@ -275,6 +286,11 @@ void round_robin_scheduler(void)
 			process_expired_delays();
 		}
 		
+		
+		// Real time qeue
+		// Interact
+		// Application
+		// Backgound
 		
 		// Here we choose the next thread to run. This is normally the last element in the running queue
 		if (scheduler.running_queue.last == NULL)
@@ -483,15 +499,21 @@ void print_runtime_statistics(void)
 		{
 			tmp_thread = (struct thread_structure *)(node->object);
 			
+			
+			// Calculate the stach usage
 			board_serial_programming_print("%d\t\t", (uint32_t)tmp_thread->context_switches);
 			
 			uint32_t used_stack = tmp_thread->stack_size - ((uint32_t)tmp_thread->stack_pointer - (uint32_t)tmp_thread->stack_base);
+			
+			// Warning message for stach overflow
+			
 			k = used_stack * 100 / tmp_thread->stack_size;
 			l = (used_stack * 100) % tmp_thread->stack_size;
 			board_serial_programming_write_percent(k, 10 * l / tmp_thread->stack_size);
 			board_serial_programming_print("\t");
 			
 			uint8_t tmp = tmp_thread->stats.window_time / 10000;
+			
 			board_serial_programming_write_percent(tmp, tmp_thread->stats.window_time / 1000 - (tmp * 10));
 			board_serial_programming_print(" : %s", tmp_thread->name);
 			board_serial_programming_print("\n");
